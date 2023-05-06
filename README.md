@@ -1,4 +1,4 @@
-#job4j_accidents
+# job4j_accidents
 
 # Accidents
 ## О проекте
