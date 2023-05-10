@@ -25,6 +25,25 @@
             </ul>
         </nav>
     </div>
+    <div class="row pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Редатирование инцидента
+            </div>
+            <div class="card-body">
+                <form th:action="@{/updateAccident}" method="POST" th:object="${accident}">
+                    <input type="hidden" name="id" th:field="*{id}"/>
+                    <input type="hidden" name="text" th:field="*{text}"/>
+                    <input type="hidden" name="address" th:field="*{address}"/>
+                    <div class="form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

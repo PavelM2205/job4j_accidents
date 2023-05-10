@@ -37,6 +37,10 @@ public class AccidentMem {
         accidents.remove(id);
     }
 
+    public void update(Accident accident) {
+        accidents.put(accident.getId(), accident);
+    }
+
     private void initializationInsert() {
         Accident accident1 = new Accident();
         accident1.setName("accident1");

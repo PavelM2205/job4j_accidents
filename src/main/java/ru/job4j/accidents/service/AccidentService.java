@@ -33,4 +33,8 @@ public class AccidentService {
     public void delete(int id) {
         accidentMem.delete(id);
     }
+
+    public void update(Accident accident) {
+        accidentMem.update(accident);
+    }
 }
