@@ -22,35 +22,9 @@
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/createAccident}">Добавить инцидент</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:text="${user}"></a>
-                </li>
             </ul>
         </nav>
     </div>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Наименование</th>
-            <th scope="col">Сообщение</th>
-            <th scope="col">Адрес</th>
-        </tr>
-        </thead>
-        <tbody th:each="accident : ${accidents}">
-        <tr>
-            <th scope="row" th:text="${accident.getId()}"></th>
-            <td th:text="${accident.getName()}"></td>
-            <td th:text="${accident.getText()}"></td>
-            <td th:text="${accident.getAddress()}">@</td>
-        </tr>
-        </tbody>
-    </table>
 </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-        crossorigin="anonymous">
-</script>
 </body>
 </html>
