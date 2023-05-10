@@ -38,6 +38,12 @@
                         <input type="text" class="form-control" name="name" id="name">
                     </div>
                     <div class="form-group">
+                        <label for="type.id">Тип</label>
+                        <select class="form-select" name="type.id" id="type.id">
+                            <option th:each="type: ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="text">Сообщение</label>
                         <input type="text" class="form-control" name="text" id="text">
                     </div>
