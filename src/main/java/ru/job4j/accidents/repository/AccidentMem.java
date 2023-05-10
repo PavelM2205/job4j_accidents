@@ -38,7 +38,7 @@ public class AccidentMem {
     }
 
     public void update(Accident accident) {
-        accidents.put(accident.getId(), accident);
+        accidents.computeIfPresent(accident.getId(), (key, value) -> accident);
     }
 
     private void initializationInsert() {
