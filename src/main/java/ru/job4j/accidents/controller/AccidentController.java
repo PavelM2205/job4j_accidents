@@ -26,7 +26,6 @@ public class AccidentController {
 
     @PostMapping("/saveAccident")
     public String save(@ModelAttribute Accident accident) {
-        accident.setType(types.findById(accident.getType().getId()));
         accidents.create(accident);
         return "redirect:/index";
     }
@@ -39,7 +38,6 @@ public class AccidentController {
 
     @PostMapping("/updateAccident")
     public String update(@ModelAttribute Accident accident) {
-        accident.setType(types.findById(accident.getType().getId()));
         accidents.update(accident);
         return "redirect:/index";
     }

@@ -15,10 +15,6 @@ public class AccidentTypeMem {
     private final Map<Integer, AccidentType> types = new ConcurrentHashMap<>();
     private final AtomicInteger id = new AtomicInteger();
 
-    public AccidentTypeMem() {
-        initializationInsert();
-    }
-
     public AccidentType create(AccidentType type) {
         type.setId(id.incrementAndGet());
         types.put(type.getId(), type);
@@ -35,17 +31,5 @@ public class AccidentTypeMem {
 
     public void update(AccidentType type) {
         types.computeIfPresent(type.getId(), (key, value) -> type);
-    }
-
-    private void initializationInsert() {
-        AccidentType type1 = new AccidentType();
-        type1.setName("Две машины");
-        AccidentType type2 = new AccidentType();
-        type2.setName("Машина и человек");
-        AccidentType type3 = new AccidentType();
-        type3.setName("Машина и велосипед");
-        create(type1);
-        create(type2);
-        create(type3);
     }
 }
