@@ -1,5 +1,6 @@
 package ru.job4j.accidents.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.AccidentTypeMem;
@@ -9,13 +10,9 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class AccidentTypeService {
     private final AccidentTypeMem accidentTypeMem;
-
-    public AccidentTypeService(AccidentTypeMem accidentTypeMem) {
-        this.accidentTypeMem = accidentTypeMem;
-        initializationInsert();
-    }
 
     public AccidentType create(AccidentType type) {
         return accidentTypeMem.create(type);
@@ -35,17 +32,5 @@ public class AccidentTypeService {
 
     public void update(AccidentType type) {
         accidentTypeMem.update(type);
-    }
-
-    private void initializationInsert() {
-        AccidentType type1 = new AccidentType();
-        type1.setName("Две машины");
-        AccidentType type2 = new AccidentType();
-        type2.setName("Машина и человек");
-        AccidentType type3 = new AccidentType();
-        type3.setName("Машина и велосипед");
-        create(type1);
-        create(type2);
-        create(type3);
     }
 }
