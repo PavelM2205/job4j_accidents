@@ -4,23 +4,26 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repository.AccidentMem;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AccidentService {
     private final AccidentMem accidentMem;
     private final AccidentTypeService accidentTypeService;
+    private final RuleService ruleService;
 
-    public AccidentService(AccidentMem accidentMem, AccidentTypeService accidentTypeService) {
+    public AccidentService(AccidentMem accidentMem,
+                           AccidentTypeService accidentTypeService,
+                           RuleService ruleService) {
         this.accidentMem = accidentMem;
         this.accidentTypeService = accidentTypeService;
+        this.ruleService = ruleService;
         initializationInsert();
     }
 
-    public Accident create(Accident accident) {
-        setInsideObjects(accident);
+    public Accident create(Accident accident, String[] ruleIds) {
+        setInsideObjects(accident, ruleIds);
         return accidentMem.create(accident);
     }
 
@@ -40,13 +43,15 @@ public class AccidentService {
         accidentMem.delete(id);
     }
 
-    public void update(Accident accident) {
-        setInsideObjects(accident);
+    public void update(Accident accident, String[] ruleIds) {
+        setInsideObjects(accident, ruleIds);
         accidentMem.update(accident);
     }
 
-    private void setInsideObjects(Accident accident) {
+    private void setInsideObjects(Accident accident, String[] ruleIds) {
         accident.setType(accidentTypeService.findById(accident.getType().getId()));
+        accident.setRules(Arrays.stream(ruleIds).map(id -> ruleService.findById(Integer.parseInt(id)))
+                .collect(Collectors.toSet()));
     }
 
     private void initializationInsert() {
@@ -55,18 +60,21 @@ public class AccidentService {
         accident1.setAddress("address1");
         accident1.setText("text1");
         accident1.setType(accidentTypeService.findById(1));
+        String[] rules1 = {"1", "2"};
         Accident accident2 = new Accident();
         accident2.setName("accident2");
         accident2.setAddress("address2");
         accident2.setText("text2");
         accident2.setType(accidentTypeService.findById(2));
+        String[] rules2 = {"2", "3"};
         Accident accident3 = new Accident();
         accident3.setName("accident3");
         accident3.setAddress("address3");
         accident3.setText("text3");
         accident3.setType(accidentTypeService.findById(3));
-        create(accident1);
-        create(accident2);
-        create(accident3);
+        String[] rules3 = {"1", "3"};
+        create(accident1, rules1);
+        create(accident2, rules2);
+        create(accident3, rules3);
     }
 }
