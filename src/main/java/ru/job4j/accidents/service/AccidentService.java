@@ -46,9 +46,7 @@ public class AccidentService {
     }
 
     private void setInsideObjects(Accident accident) {
-        if (accident.getType().getId() != 0 && accident.getType().getName() == null) {
-            accident.setType(accidentTypeService.findById(accident.getType().getId()));
-        }
+        accident.setType(accidentTypeService.findById(accident.getType().getId()));
     }
 
     private void initializationInsert() {
