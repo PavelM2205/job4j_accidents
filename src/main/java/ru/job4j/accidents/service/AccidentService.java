@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.repository.AccidentHibernate;
-import ru.job4j.accidents.repository.AccidentTypeMem;
-import ru.job4j.accidents.repository.RuleMem;
+import ru.job4j.accidents.repository.AccidentTypeHibernate;
+import ru.job4j.accidents.repository.RuleHibernate;
 
 import java.util.*;
 
@@ -13,8 +13,8 @@ import java.util.*;
 @AllArgsConstructor
 public class AccidentService {
     private final AccidentHibernate accidentHibernate;
-    private final AccidentTypeMem accidentTypeMem;
-    private final RuleMem ruleMem;
+    private final AccidentTypeHibernate typeHibernate;
+    private final RuleHibernate ruleHibernate;
 
     public Accident create(Accident accident, String[] ruleIds) {
         setInsideObjects(accident, ruleIds);
@@ -43,7 +43,7 @@ public class AccidentService {
     }
 
     private void setInsideObjects(Accident accident, String[] ruleIds) {
-        accident.setType(accidentTypeMem.findById(accident.getType().getId()).get());
-        accident.setRules(ruleMem.findByIds(ruleIds));
+        accident.setType(typeHibernate.findById(accident.getType().getId()).get());
+        accident.setRules(ruleHibernate.findByIds(ruleIds));
     }
 }

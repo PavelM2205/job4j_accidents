@@ -1,12 +1,11 @@
 package ru.job4j.accidents.repository;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -15,46 +14,29 @@ public class AccidentHibernate {
     public static final String FIND_ALL = "FROM Accident";
     public static final String FIND_BY_ID =
             "FROM Accident as a JOIN FETCH a.rules WHERE a.id = :fId";
-    private final SessionFactory sf;
+    private final CrudRepository crudRepository;
 
     public Accident create(Accident accident) {
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            session.persist(accident);
-            session.getTransaction().commit();
-            return accident;
-        }
+        crudRepository.run(session -> session.persist(accident));
+        return accident;
     }
 
     public List<Accident> findAll() {
-        try (Session session = sf.openSession()) {
-            return session.createQuery(FIND_ALL, Accident.class).list();
-        }
+        return crudRepository.query(FIND_ALL, Accident.class);
     }
 
     public Optional<Accident> findById(int id) {
-        try (Session session = sf.openSession()) {
-            return Optional.ofNullable(session.createQuery(
-                    FIND_BY_ID, Accident.class)
-                    .setParameter("fId", id).getSingleResultOrNull());
-        }
+        return crudRepository.optional(FIND_BY_ID, Map.of("fId", id),
+                Accident.class);
     }
 
     public void update(Accident accident) {
-        try (Session session = sf.openSession()) {
-            session.beginTransaction();
-            session.update(accident);
-            session.getTransaction().commit();
-        }
+        crudRepository.run(session -> session.update(accident));
     }
 
     public void delete(int id) {
-        try (Session session = sf.openSession()) {
-            Accident accident = new Accident();
-            accident.setId(id);
-            session.beginTransaction();
-            session.remove(accident);
-            session.getTransaction().commit();
-        }
+        Accident accident = new Accident();
+        accident.setId(id);
+        crudRepository.run(session -> session.remove(accident));
     }
 }
