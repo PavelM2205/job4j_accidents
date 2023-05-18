@@ -3,47 +3,43 @@ package ru.job4j.accidents.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.repository.AccidentHibernate;
-import ru.job4j.accidents.repository.AccidentTypeHibernate;
-import ru.job4j.accidents.repository.RuleHibernate;
+import ru.job4j.accidents.repository.*;
 
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class AccidentService {
-    private final AccidentHibernate accidentHibernate;
-    private final AccidentTypeHibernate typeHibernate;
-    private final RuleHibernate ruleHibernate;
+    private final AccidentRepository accidentRepository;
+    private final AccidentTypeRepository typeRepository;
+    private final RuleRepository ruleRepository;
 
     public Accident create(Accident accident, String[] ruleIds) {
         setInsideObjects(accident, ruleIds);
-        return accidentHibernate.create(accident);
+        return accidentRepository.save(accident);
     }
 
     public List<Accident> findAll() {
-        return accidentHibernate.findAll();
+        return (List<Accident>) accidentRepository.findAll();
     }
 
     public Accident findById(int id) {
-        Optional<Accident> optAccident = accidentHibernate.findById(id);
-        if (optAccident.isEmpty()) {
-            throw new NoSuchElementException(" The Accident is not found");
-        }
-        return optAccident.get();
-    }
-
-    public void delete(int id) {
-        accidentHibernate.delete(id);
+        return accidentRepository.findById(id).get();
     }
 
     public void update(Accident accident, String[] ruleIds) {
         setInsideObjects(accident, ruleIds);
-        accidentHibernate.update(accident);
+        accidentRepository.save(accident);
+    }
+
+    public void delete(int id) {
+        Accident accident = new Accident();
+        accident.setId(id);
+        accidentRepository.delete(accident);
     }
 
     private void setInsideObjects(Accident accident, String[] ruleIds) {
-        accident.setType(typeHibernate.findById(accident.getType().getId()).get());
-        accident.setRules(ruleHibernate.findByIds(ruleIds));
+        accident.setType(typeRepository.findById(accident.getType().getId()).get());
+        accident.setRules(ruleRepository.findByIds(ruleIds));
     }
 }
