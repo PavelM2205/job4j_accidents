@@ -40,6 +40,10 @@ public class AccidentService {
 
     private void setInsideObjects(Accident accident, String[] ruleIds) {
         accident.setType(typeRepository.findById(accident.getType().getId()).get());
-        accident.setRules(ruleRepository.findRulesByIdIn(ruleIds));
+        List<Integer> args = new ArrayList<>();
+        for (String id : ruleIds) {
+            args.add(Integer.valueOf(id));
+        }
+        accident.setRules(ruleRepository.findRulesByIdIn(args));
     }
 }
