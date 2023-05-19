@@ -20,7 +20,7 @@ public class AccidentService {
     }
 
     public List<Accident> findAll() {
-        return (List<Accident>) accidentRepository.findAll();
+        return accidentRepository.findAll();
     }
 
     public Accident findById(int id) {
@@ -40,6 +40,6 @@ public class AccidentService {
 
     private void setInsideObjects(Accident accident, String[] ruleIds) {
         accident.setType(typeRepository.findById(accident.getType().getId()).get());
-        accident.setRules(ruleRepository.findByIds(ruleIds));
+        accident.setRules(ruleRepository.findRulesByIdIn(ruleIds));
     }
 }
