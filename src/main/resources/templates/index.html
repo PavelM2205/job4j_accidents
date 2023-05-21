@@ -24,7 +24,10 @@
                     <a class="nav-link" th:href="@{/createAccident}">Добавить инцидент</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:text="${user}"></a>
+                    <a class="nav-link" th:href="@{/logout}">
+                        <span th:text="${user}"></span>
+                        <span> |Выйти</span>
+                    </a>
                 </li>
             </ul>
         </nav>

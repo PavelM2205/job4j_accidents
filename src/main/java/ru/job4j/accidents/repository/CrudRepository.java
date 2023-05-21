@@ -26,7 +26,7 @@ public class CrudRepository {
 
     public void run(String query, Map<String, Object> args) {
         Consumer<Session> command = session -> {
-            var qr = session.createMutationQuery(query);
+            var qr = session.createQuery(query);
             for (Map.Entry<String, Object> entry : args.entrySet()) {
                 qr.setParameter(entry.getKey(), entry.getValue());
             }
@@ -48,14 +48,14 @@ public class CrudRepository {
             for (Map.Entry<String, Object> entry : args.entrySet()) {
                 qr.setParameter(entry.getKey(), entry.getValue());
             }
-            return Optional.ofNullable(qr.getSingleResultOrNull());
+            return Optional.ofNullable(qr.uniqueResult());
         };
         return tx(command);
     }
 
     public <T> Optional<T> optional(String query, Class<T> cl) {
         Function<Session, Optional> command = session ->
-                Optional.ofNullable(session.createQuery(query, cl).getSingleResultOrNull());
+                Optional.ofNullable(session.createQuery(query, cl).uniqueResult());
         return tx(command);
     }
 
