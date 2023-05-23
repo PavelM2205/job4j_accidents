@@ -1,13 +1,13 @@
 package ru.job4j.accidents.controller;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
-import ru.job4j.accidents.exception.UserWithSuchLoginAlreadyExists;
 
-@ControllerAdvice
+@ControllerAdvice(assignableTypes = RegController.class)
 public class ExceptionController {
-    @ExceptionHandler(UserWithSuchLoginAlreadyExists.class)
+    @ExceptionHandler(DataIntegrityViolationException.class)
     public ModelAndView userWithSuchNameAlreadyExists() {
         ModelAndView mv = new ModelAndView();
         mv.addObject("error",
