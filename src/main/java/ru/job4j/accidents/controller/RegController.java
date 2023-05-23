@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.job4j.accidents.model.User;
-import ru.job4j.accidents.repository.AuthorityRepository;
-import ru.job4j.accidents.repository.UserRepository;
+import ru.job4j.accidents.service.AuthorityService;
+import ru.job4j.accidents.service.UserService;
 
 @Controller
 @AllArgsConstructor
 public class RegController {
     private final PasswordEncoder encoder;
-    private final UserRepository userRepository;
-    private final AuthorityRepository authorityRepository;
+    private final UserService userService;
+    private final AuthorityService authorityService;
 
     @PostMapping("/reg")
     public String regSave(@ModelAttribute User user) {
         user.setEnabled(true);
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setAuthority(authorityRepository.findByAuthority("ROLE_USER"));
-        userRepository.save(user);
+        user.setAuthority(authorityService.findByAuthority("ROLE_USER"));
+        userService.save(user);
         return "redirect:/login";
     }
 

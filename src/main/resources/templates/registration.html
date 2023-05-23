@@ -37,6 +37,11 @@
                 </div>
             </div>
         </form>
+        <div class="col-6">
+        <div style="margin-top: 3%" th:if="${error} != null" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+        </div>
+        </div>
     </div>
 </div>
 </body>
